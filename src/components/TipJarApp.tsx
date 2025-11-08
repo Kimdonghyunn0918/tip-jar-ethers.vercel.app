@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { getBalance, sendTip, withdrawTips, getOwner } from '@/lib/contract';
 
-// MetaMask ethereum 타입 정의 (any 피하기 위해)
+// MetaMask ethereum 타입 정의
 interface EthereumProvider {
   request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
 }
@@ -42,10 +42,12 @@ export default function TipJarApp() {
   async function connectWallet() {
     if (window.ethereum) {
       const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }) as string[];
-      setConnected(true);
-      setAccount(accounts[0]);
-      const owner = await getOwner();
-      setIsOwner(accounts[0].toLowerCase() === owner.toLowerCase());
+      if (accounts.length > 0) {
+        setConnected(true);
+        setAccount(accounts[0]);
+        const owner = await getOwner();
+        setIsOwner(accounts[0].toLowerCase() === owner.toLowerCase());
+      }
     }
   }
 
