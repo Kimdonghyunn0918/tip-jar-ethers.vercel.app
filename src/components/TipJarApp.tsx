@@ -17,8 +17,8 @@ export default function TipJarApp() {
   }, []);
 
   async function checkWallet() {
-    if (window.ethereum) {
-      const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+    if ((window as any).ethereum) {
+      const accounts = await (window as any).ethereum.request({ method: 'eth_accounts' });
       if (accounts.length > 0) {
         setConnected(true);
         setAccount(accounts[0]);
@@ -29,8 +29,8 @@ export default function TipJarApp() {
   }
 
   async function connectWallet() {
-    if (window.ethereum) {
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    if ((window as any).ethereum) {
+      const accounts = await (window as any).ethereum.request({ method: 'eth_requestAccounts' });
       setConnected(true);
       setAccount(accounts[0]);
       const owner = await getOwner();
